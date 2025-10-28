@@ -1,0 +1,7 @@
+{
+  "name": "MN L&H Exam Pro",
+  "description": "An AI-powered study application to help users pass the Minnesota Life & Accident & Health Producer examination, featuring practice tests, regulatory deep dives, and multiple Gemini-powered learning tools.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}
