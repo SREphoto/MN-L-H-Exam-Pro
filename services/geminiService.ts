@@ -14,7 +14,7 @@ let chat: Chat | null = null;
 
 export const startChat = (history: ChatMessage[]) => {
     chat = ai.chats.create({
-        model: 'gemini-2.5-flash',
+        model: 'gemini-3.0-flash',
         history: history.map(msg => ({
             role: msg.role,
             parts: [{ text: msg.text }]
@@ -35,7 +35,7 @@ export const sendMessageToChat = async (message: string): Promise<string> => {
 
 export const getGroundedResponse = async (query: string): Promise<ChatMessage> => {
     const response = await ai.models.generateContent({
-        model: "gemini-2.5-flash",
+        model: "gemini-3.0-flash",
         contents: query,
         config: {
             tools: [{ googleSearch: {} }],
@@ -51,7 +51,7 @@ export const getGroundedResponse = async (query: string): Promise<ChatMessage> =
 
 export const getDeepDiveAnalysis = async (context: string): Promise<string> => {
     const response = await ai.models.generateContent({
-        model: "gemini-2.5-pro",
+        model: "gemini-3.0-pro",
         contents: context,
         config: {
             thinkingConfig: { thinkingBudget: 32768 }
@@ -62,7 +62,7 @@ export const getDeepDiveAnalysis = async (context: string): Promise<string> => {
 
 export const getLowLatencyHint = async (term: string): Promise<string> => {
     const response = await ai.models.generateContent({
-        model: "gemini-flash-lite-latest",
+        model: "gemini-2.5-flash-lite",
         contents: `Provide a very short, one-sentence mnemonic or simple tip to remember the insurance term: "${term}".`,
     });
     return response.text;
@@ -71,7 +71,7 @@ export const getLowLatencyHint = async (term: string): Promise<string> => {
 export const generateStudyPlan = async (examDate: string, weeklyHours: number): Promise<string> => {
     const prompt = `Create a concise, bulleted study plan for the Minnesota Life & Health insurance exam. The exam date is ${examDate} and I can study ${weeklyHours} hours per week. Break it down week by week. Focus on the main topics: Life Insurance General Knowledge, Accident & Health General Knowledge, and Minnesota-specific regulations.`;
     const response = await ai.models.generateContent({
-        model: 'gemini-2.5-flash',
+        model: 'gemini-3.0-flash',
         contents: prompt
     });
     return response.text;
@@ -82,7 +82,7 @@ export const generateStudyPlan = async (examDate: string, weeklyHours: number): 
 
 export const textToSpeech = async (text: string): Promise<string> => {
     const response = await ai.models.generateContent({
-        model: "gemini-2.5-flash-preview-tts",
+        model: "gemini-2.5-pro-tts",
         contents: [{ parts: [{ text: text }] }],
         config: {
             responseModalities: [Modality.AUDIO],
@@ -109,7 +109,7 @@ export const connectToLiveTutor = (callbacks: {
     onclose: (e: CloseEvent) => void;
 }): Promise<LiveSession> => {
     const sessionPromise = ai.live.connect({
-        model: 'gemini-2.5-flash-native-audio-preview-09-2025',
+        model: 'gemini-3.0-pro',
         callbacks,
         config: {
             responseModalities: [Modality.AUDIO],
